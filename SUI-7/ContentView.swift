@@ -8,14 +8,69 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Namespace private var namespace
+    @State private var isOpened = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        if isOpened {
+            VStack {
+                HStack {
+                    Button(action: buttonAction) {
+                        Label("Back", systemImage: "arrowshape.left.fill")
+                            .fontWeight(.semibold)
+                            .matchedGeometryEffect(
+                                id: "text",
+                                in: namespace
+                            )
+                    }
+                    .padding()
+                    Spacer()
+                }
+                Spacer()
+            }
+            .background(.blue)
+            .foregroundColor(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+            .matchedGeometryEffect(
+                id: "button",
+                in: namespace
+            )
+            .frame(width: 250, height: 400)
+        } else {
+            VStack {
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    
+                    Button(action: buttonAction) {
+                        Text("Open")
+                            .foregroundColor(.white)
+                            .matchedGeometryEffect(
+                                id: "text",
+                                in: namespace
+                            )
+                            .padding()
+                    }
+                    .background (
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(.blue)
+                            .matchedGeometryEffect(
+                                id: "button",
+                                in: namespace
+                            )
+                    )
+                    .padding()
+                    
+                }
+            }
         }
-        .padding()
+    }
+    
+    func buttonAction() {
+        withAnimation(.easeInOut) {
+            isOpened.toggle()
+        }
     }
 }
 
